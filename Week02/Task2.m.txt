@@ -1,0 +1,18 @@
+
+% http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+
+clear all;
+
+
+
+Iris_Data = readtable('iris.txt','ReadVariableNames',false);
+VarNames = {'sepal_length','sepal_width' 'petal_length' 'petal_width' 'Iris_class'};
+Iris_Data.Properties.VariableNames = VarNames;
+
+c = cvpartition(Iris_Data.Iris_class,'Holdout',0.3)
+train_Data = Iris_Data(training(c),:)
+test_Data = Iris_Data(test(c),:)
+
+ctree= fitctree(train_Data,'Iris_class') 
+view(ctree,'Mode','graph')
+label= predict(ctree,test_Data)
